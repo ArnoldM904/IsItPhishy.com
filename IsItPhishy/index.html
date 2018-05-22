@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
-	<head>
-        <link rel="stylesheet" type="text/css" href="index.css"/>
+    <head>
+        <title>Is It Phishy?</title>
         <style>
             body {
                 background-color: #222222; }
@@ -10,18 +10,33 @@
                 top:50%;
                 left:50%;
                 transform:translate(-50%,-50%); }
+            span {
+                position:fixed;
+                top:55%;
+                left:55%;
+                transform:translate(-50%,-50%);}
         </style>
-		<title>Is It Phishy?</title>
-	</head>
+    </head>
+    <body>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message[1] }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <form action="" method="post">
+            {{ form.csrf }}
 
-<body>
-	<h1>Is It Phishy?</h1>
-	<p>Search URL</p>
-	<div>
-		<form method="POST">
-			<input name="text">
-			<input type="submit">
-		</form>
-	</div>
-</body>
+            <div class="input text">
+                {{ form.name.label }} {{ form.name }}
+            </div>
+
+            <span class="input submit">
+                <input type="submit" value="Submit" />
+            </span>
+        </form>
+    </body>
 </html>
