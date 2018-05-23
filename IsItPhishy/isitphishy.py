@@ -1,5 +1,6 @@
 from flask import Flask, render_template, flash, request
-from wtforms import Form, TextField, validators
+from wtforms import Form, validators, StringField
+import url_check
 
 # App config.
 DEBUG = True
@@ -9,19 +10,19 @@ app.config['SECRET_KEY'] = 'ExampleKeyHere'
 
 
 class ReusableForm(Form):
-    name = TextField('Name:', validators=[validators.required()])
+    name = StringField('Enter URL:', validators=[validators.required()])
 
 
 @app.route("/", methods=['GET', 'POST'])
-def my_form():
+def search_form():
     form = ReusableForm(request.form)
 
     if request.method == 'POST':
-        name = request.form['name']
+        url = request.form['name']
 
         if form.validate():
             # Save the comment here.
-            flash(f'{name} is phishy because reasons.')
+            flash(url_check.examine(url)) # Check how Phishy the URL is.
         else:
             flash('All the form fields are required. ')
 
