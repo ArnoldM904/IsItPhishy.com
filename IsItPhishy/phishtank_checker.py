@@ -1,14 +1,17 @@
 # Python 3.6.5
 # Checks a URL against the PhishTank database.
-# !! NOTE !! Still a work in progress.
-
+# Still a work in progress.
 import requests
 import base64
+import configparser
 
 
 def check_phishtank(search):
-    api_key = 'bb7da612a507679bb53ef5c918e67b35d547b35cf8ca1e2e738b11dd078a992c'
-    api_url = 'http://checkurl.phishtank.com/checkurl/'
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+
+    api_key = config.get('IsItPhishy', 'api_key')
+    api_url = config.get('IsItPhishy', 'api_url')
     post_data = {
         'url': base64.b64encode(search.encode("utf-8")),
         'format': 'json',
